@@ -1,13 +1,12 @@
-name: XRT CI
+name: XRT CI copy pacakges
 
 env:  
   RELEASE: '2024.1'  
   PIPELINE: 'xrt' 
   ENV: 'dev' 
 
-on:
-  pull_request_target:
-    types: [opened, edited, synchronize]
+on:  
+  workflow_dispatch:
 
 concurrency:  
   group: ${{ github.event.pull_request.head.repo.full_name }}-${{ github.event.pull_request.head.ref }}
@@ -205,4 +204,4 @@ jobs:
           NPATH: ${{ secrets.NPATH }}
           USER: ${{ secrets.USER }}
           github-server-url: ${{ secrets.SERVER_URL }}
-               
+
