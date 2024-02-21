@@ -72,7 +72,7 @@ jobs:
           appConfig3: ${{ secrets.APP_CONFIG3 }} 
 
   copy-packages:
-    needs: authorize
+    needs: build
     runs-on: [self-hosted, Ubuntu-22.04]
     steps:
       - name: Upload files from src directory for TA
@@ -88,7 +88,6 @@ jobs:
             ${{ inputs.workspace }}/${{ inputs.buildNumber }}/build/Release_${{ inputs.packageType }}_${{ inputs.osVersion }}/opt/xilinx/xrt/version.json
 
   windows-build:
-    needs: authorize
     runs-on: Windows
     steps:
       - name: Checkout PR   
@@ -121,7 +120,6 @@ jobs:
           github-server-url: ${{ secrets.SERVER_URL }}
 
   apu-package-build:
-    needs: authorize
     runs-on: apu
     # runs-on: Ubuntu-20.04
     steps:      
@@ -165,7 +163,7 @@ jobs:
           appConfig3: ${{ secrets.APP_CONFIG3 }} 
 
   package-download:    
-    needs: build    
+    needs: copy-packages    
     runs-on: [self-hosted, Ubuntu-22.04]    
     steps:    
       - name: Checkout private repository    
