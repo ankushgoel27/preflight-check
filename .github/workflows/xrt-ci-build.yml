@@ -6,7 +6,9 @@ env:
   ENV: 'dev' 
 
 on:  
-  workflow_dispatch:
+  push:  
+    branches:  
+      - copy-packages-feature 
 
 concurrency:  
   group: ${{ github.event.pull_request.head.repo.full_name }}-${{ github.event.pull_request.head.ref }}
