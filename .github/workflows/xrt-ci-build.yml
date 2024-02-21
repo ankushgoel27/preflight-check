@@ -75,17 +75,23 @@ jobs:
     needs: build
     runs-on: [self-hosted, Ubuntu-22.04]
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v4 
+        with: 
+          repository: "${{ github.event.pull_request.head.repo.full_name }}"
+          ref: "${{ github.event.pull_request.head.ref }}"
+          fetch-depth: 0
+          path: ${{ github.workspace }}/${{ github.run_number }}  
+          submodules: recursive 
+
       - name: Upload files from src directory for TA
         uses: actions/upload-artifact@v3
         with:      
           path: |    
-            ${{ inputs.workspace }}/${{ inputs.buildNumber }}/build/Release_${{ inputs.packageType }}_${{ inputs.osVersion }}/*.${{ inputs.packageType }}    
-            ${{ inputs.workspace }}/${{ inputs.buildNumber }}/build/Release_${{ inputs.packageType }}_${{ inputs.osVersion }}/*xrt.tar.gz 
-            ${{ inputs.workspace }}/${{ inputs.buildNumber }}/src/runtime_src/tools/scripts/pkg_hw_platform.sh 
-            ${{ inputs.workspace }}/${{ inputs.buildNumber }}/src/runtime_src/tools/scripts/pkgdsa.sh
-            ${{ inputs.workspace }}/${{ inputs.buildNumber }}/src/runtime_src/tools/scripts/pkgapp.sh
-            ${{ inputs.workspace }}/${{ inputs.buildNumber }}/tests
-            ${{ inputs.workspace }}/${{ inputs.buildNumber }}/build/Release_${{ inputs.packageType }}_${{ inputs.osVersion }}/opt/xilinx/xrt/version.json
+            ${{ github.workspace }}/${{ github.run_number }}/src/runtime_src/tools/scripts/pkg_hw_platform.sh 
+            ${{ github.workspace }}/${{ github.run_number }}/src/runtime_src/tools/scripts/pkgdsa.sh
+            ${{ github.workspace }}/${{ github.run_number }}/src/runtime_src/tools/scripts/pkgapp.sh
+            ${{ github.workspace }}/${{ github.run_number }}/tests
 
   windows-build:
     runs-on: Windows
