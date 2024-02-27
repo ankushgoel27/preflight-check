@@ -54,7 +54,7 @@ jobs:
           github-server-url: ${{ secrets.SERVER_URL }}      
           token: ${{ secrets.ACCESS_TOKEN }}      
           path: composite-workflows 
-          ref: main
+          ref: copy-packages-feature
        
       - name: XRT build     
         uses: ./composite-workflows/build
