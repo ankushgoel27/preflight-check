@@ -71,28 +71,28 @@ jobs:
           appConfig2: ${{ secrets.APP_CONFIG2 }} 
           appConfig3: ${{ secrets.APP_CONFIG3 }} 
 
-  copy-packages:
-    needs: build
-    runs-on: [self-hosted, Ubuntu-22.04]
-    steps:
-      - name: Checkout private repository      
-        uses: actions/checkout@v3   
-        with:      
-          repository: actions-int/composite-workflows
-          github-server-url: ${{ secrets.SERVER_URL }}      
-          token: ${{ secrets.ACCESS_TOKEN }}      
-          path: composite-workflows 
-          ref: copy-packages-feature
+  # copy-packages:
+  #   needs: build
+  #   runs-on: [self-hosted, Ubuntu-22.04]
+  #   steps:
+  #     - name: Checkout private repository      
+  #       uses: actions/checkout@v3   
+  #       with:      
+  #         repository: actions-int/composite-workflows
+  #         github-server-url: ${{ secrets.SERVER_URL }}      
+  #         token: ${{ secrets.ACCESS_TOKEN }}      
+  #         path: composite-workflows 
+  #         ref: copy-packages-feature
        
-      - name: XRT copy packages build     
-        uses: ./composite-workflows/copy-packages
-        with:     
-          workspace: ${{ github.workspace }}   
-          buildNumber: ${{ github.run_number }}    
-          release: ${{ env.RELEASE }}
-          accessToken: ${{ secrets.ACCESS_TOKEN }} 
-          repository: "${{ github.event.pull_request.head.repo.full_name }}"
-          ref: "${{ github.event.pull_request.head.ref }}"
+  #     - name: XRT copy packages build     
+  #       uses: ./composite-workflows/copy-packages
+  #       with:     
+  #         workspace: ${{ github.workspace }}   
+  #         buildNumber: ${{ github.run_number }}    
+  #         release: ${{ env.RELEASE }}
+  #         accessToken: ${{ secrets.ACCESS_TOKEN }} 
+  #         repository: "${{ github.event.pull_request.head.repo.full_name }}"
+  #         ref: "${{ github.event.pull_request.head.ref }}"
 
   windows-build:
     runs-on: Windows
