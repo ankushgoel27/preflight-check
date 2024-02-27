@@ -170,7 +170,7 @@ jobs:
           appConfig3: ${{ secrets.APP_CONFIG3 }} 
 
   package-download:    
-    needs: copy-packages    
+    needs: build    
     runs-on: [self-hosted, Ubuntu-22.04]    
     steps:    
       - name: Checkout private repository    
