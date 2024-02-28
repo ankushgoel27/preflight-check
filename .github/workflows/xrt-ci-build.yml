@@ -197,7 +197,16 @@ jobs:
   setenv-download:    
     needs: package-download    
     runs-on: [self-hosted, Ubuntu-22.04]    
-    steps:    
+    steps:
+
+      - name: Checkout PR   
+        uses: actions/checkout@v4 
+        with: 
+          repository: devops/setenv-XRT
+          token: ${{ secrets.ACCESS_TOKEN }}
+          github-server-url: ${{ secrets.SERVER_URL }}    
+          path: ${{ github.workspace }}/${{ github.run_number }}  
+          
       - name: Checkout private repository    
         uses: actions/checkout@v3 
         with:    
@@ -212,7 +221,9 @@ jobs:
         with:    
           runNumber: ${{ github.run_number }}    
           pipeline: ${{ env.PIPELINE }}    
-          env: ${{ env.ENV }}  
+          env: ${{ env.ENV }}
+          workspace: ${{ github.workspace }}  
+          buildNumber: ${{ github.run_number }} 
           sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}    
           accessToken: ${{ secrets.ACCESS_TOKEN }}
           NPATH: ${{ secrets.NPATH }}
