@@ -345,6 +345,40 @@ jobs:
           runNumber: ${{ github.run_number }} 
           accessToken: ${{ secrets.ACCESS_TOKEN }}      
           github-server-url: ${{ secrets.SERVER_URL }}
+
+  gradle-artifactory-upload:    
+    needs: Upload_packages_to_Artifactory    
+    runs-on: [self-hosted, Ubuntu-22.04]    
+    steps:
+
+      - name: Checkout PR   
+        uses: actions/checkout@v4 
+        with: 
+          repository: devops/gradle-artifactory-publish-script
+          token: ${{ secrets.ACCESS_TOKEN }}
+          github-server-url: ${{ secrets.SERVER_URL }}    
+          path: ${{ github.workspace }}/${{ github.run_number }}  
+          
+      - name: Checkout private repository    
+        uses: actions/checkout@v3 
+        with:    
+          repository: actions-int/composite-workflows    
+          token: ${{ secrets.ACCESS_TOKEN }}
+          github-server-url: ${{ secrets.SERVER_URL }}    
+          path: composite-workflows 
+          ref: copy-packages-feature
+    
+      - name: Use composite action package download     
+        uses: ./composite-workflows/gradle-artifactory-upload   
+        with:    
+          runNumber: ${{ github.run_number }}    
+          pipeline: ${{ env.PIPELINE }}    
+          env: ${{ env.ENV }}
+          workspace: ${{ github.workspace }}  
+          buildNumber: ${{ github.run_number }} 
+          accessToken: ${{ secrets.ACCESS_TOKEN }}
+          github-server-url: ${{ secrets.SERVER_URL }}
+
           
   
 
