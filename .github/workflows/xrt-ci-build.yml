@@ -327,12 +327,24 @@ jobs:
     runs-on: [self-hosted, Ubuntu-22.04]  
     needs: package-download  
     steps:  
-      - name: Upload Artifacts  
-        uses: actions-int/upload-packages-action@upload_packages_action_xrt  
-        with:  
-          isProd: 'false'   
-          pipeline: 'xrt'  
-          release: '2024.1'  
-          runNumber: ${{ github.run_number }}  
+      - name: Checkout private repository    
+        uses: actions/checkout@v3 
+        with:    
+          repository: actions-int/composite-workflows    
+          token: ${{ secrets.ACCESS_TOKEN }}
+          github-server-url: ${{ secrets.SERVER_URL }}    
+          path: composite-workflows 
+          ref: copy-packages-feature
+
+      - name: Use composite action artifactory upload     
+        uses: ./composite-workflows/artifactory-upload   
+        with: 
+          isProd: 'false'  
+          pipeline: 'xrt'        
+          release: '2024.1'      
+          runNumber: ${{ github.run_number }} 
+          accessToken: ${{ secrets.ACCESS_TOKEN }}      
+          github-server-url: ${{ secrets.SERVER_URL }}
+          
   
 
