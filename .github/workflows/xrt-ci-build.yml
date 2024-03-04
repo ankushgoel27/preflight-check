@@ -322,5 +322,17 @@ jobs:
           runnerName: ${{ runner.name }}      
           branch: ${{ steps.extract_branch.outputs.branch }}    
           github-server-url: ${{ secrets.SERVER_URL }}
+          
+  Upload_packages_to_Artifactory:  
+    runs-on: [self-hosted, Ubuntu-22.04]  
+    needs: package-download  
+    steps:  
+      - name: Upload Artifacts  
+        uses: actions-int/upload-packages-action@upload_packages_action_xrt  
+        with:  
+          isProd: 'false'   
+          pipeline: 'xrt'  
+          release: '2024.1'  
+          runNumber: ${{ github.run_number }}  
   
 
