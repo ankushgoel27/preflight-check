@@ -348,8 +348,12 @@ jobs:
 
   gradle-artifactory-upload:    
     needs: Upload_packages_to_Artifactory    
-    runs-on: [self-hosted, Ubuntu-22.04]    
+    runs-on: apu    
     steps:
+
+      - name: Extract branch name      
+        id: extract_branch      
+        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})" 
 
       - name: Checkout PR   
         uses: actions/checkout@v4 
@@ -376,6 +380,7 @@ jobs:
           env: ${{ env.ENV }}
           workspace: ${{ github.workspace }}  
           buildNumber: ${{ github.run_number }} 
+          branch: ${{ steps.extract_branch.outputs.branch }}
           accessToken: ${{ secrets.ACCESS_TOKEN }}
           github-server-url: ${{ secrets.SERVER_URL }}
 
