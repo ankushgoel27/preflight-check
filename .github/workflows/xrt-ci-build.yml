@@ -3,7 +3,7 @@ name: XRT CI copy pacakges
 env:  
   RELEASE: '2024.1'  
   PIPELINE: 'xrt' 
-  ENV: 'dev' 
+  ENV: 'test' 
 
 on:  
   push:  
