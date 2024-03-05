@@ -515,5 +515,7 @@ jobs:
           branch: ${{ steps.extract_branch.outputs.branch }}
           accessToken: ${{ secrets.ACCESS_TOKEN }}
           github-server-url: ${{ secrets.SERVER_URL }}
+          sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}
+          runnerName: ${{ runner.name }}
   
 
