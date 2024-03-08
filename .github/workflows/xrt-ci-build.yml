@@ -125,7 +125,7 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
           github-server-url: ${{ secrets.SERVER_URL }}       
           path: composite-workflows  
-          ref: main
+          ref: copy-packages-feature
        
       - name: Apu package build for XRT     
         uses: ./composite-workflows/apu-package
