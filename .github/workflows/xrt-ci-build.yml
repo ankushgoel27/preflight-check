@@ -48,7 +48,7 @@ jobs:
           ref: "${{ github.event.pull_request.head.ref }}"
           fetch-depth: 0
           # path: ${{ github.workspace }}/${{ github.run_number }}
-          path: ${{ github.workspace }}/$XRT_VERSION_PATCH    
+          path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}    
           submodules: recursive   
 
       - name: Checkout private repository      
@@ -68,7 +68,7 @@ jobs:
           packageType: ${{ matrix.packageType }}  
           workspace: ${{ github.workspace }}
           # buildNumber: ${{ github.run_number }}
-          buildNumber: $XRT_VERSION_PATCH          
+          buildNumber: ${{ env.XRT_VERSION_PATCH }}          
           accessToken: ${{ secrets.ACCESS_TOKEN }}
           github-server-url: ${{ secrets.SERVER_URL }}
           appConfig: ${{ secrets.APP_CONFIG }} 
@@ -96,7 +96,7 @@ jobs:
         with: 
           fetch-depth: 0
           # path: ${{ github.workspace }}/${{ github.run_number }}
-          path: ${{ github.workspace }}/$XRT_VERSION_PATCH 
+          path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }} 
           
           submodules: recursive
           persist-credentials: false 
@@ -114,9 +114,9 @@ jobs:
         uses: ./composite-workflows/windows-build
         with:     
           # workspace: ${{ github.workspace }}/${{ github.run_number }}/build
-          workspace: ${{ github.workspace }}/$XRT_VERSION_PATCH/build      
+          workspace: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}/build      
           # buildNumber: ${{ github.run_number }} 
-          buildNumber: $XRT_VERSION_PATCH       
+          buildNumber: ${{ env.XRT_VERSION_PATCH }}       
           release: ${{ env.RELEASE }}
           accessToken: ${{ secrets.ACCESS_TOKEN }} 
           workspaceg: ${{ github.workspace }}
@@ -140,7 +140,7 @@ jobs:
         with: 
           fetch-depth: 0
           # path: ${{ github.workspace }}/${{ github.run_number }}
-          path: ${{ github.workspace }}/$XRT_VERSION_PATCH    
+          path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}    
           submodules: recursive  
 
       - name: Checkout private repository      
@@ -158,7 +158,7 @@ jobs:
           pipeline: ${{ env.PIPELINE }}   
           workspace: ${{ github.workspace }}  
           # buildNumber: ${{ github.run_number }}
-          buildNumber: $XRT_VERSION_PATCH        
+          buildNumber: ${{ env.XRT_VERSION_PATCH }}        
           apuPackage: 'True' 
           release: ${{ env.RELEASE }}  
           accessToken: ${{ secrets.ACCESS_TOKEN }}
@@ -196,7 +196,7 @@ jobs:
         uses: ./composite-workflows/package-download   
         with:    
           # runNumber: ${{ github.run_number }}
-          runNumber: $XRT_VERSION_PATCH        
+          runNumber: ${{ env.XRT_VERSION_PATCH }}        
           pipeline: ${{ env.PIPELINE }}    
           env: ${{ env.ENV }}  
           sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}    
@@ -390,7 +390,7 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
           github-server-url: ${{ secrets.SERVER_URL }}    
           # path: ${{ github.workspace }}/${{ github.run_number }}
-          path: ${{ github.workspace }}/$XRT_VERSION_PATCH    
+          path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}    
           
       - name: Checkout private repository    
         uses: actions/checkout@v3 
@@ -405,12 +405,12 @@ jobs:
         uses: ./composite-workflows/setenv   
         with:    
           # runNumber: ${{ github.run_number }}
-          runNumber: $XRT_VERSION_PATCH        
+          runNumber: ${{ env.XRT_VERSION_PATCH }}        
           pipeline: ${{ env.PIPELINE }}    
           env: ${{ env.ENV }}
           workspace: ${{ github.workspace }}  
           # buildNumber: ${{ github.run_number }}
-          buildNumber: $XRT_VERSION_PATCH  
+          buildNumber: ${{ env.XRT_VERSION_PATCH }}  
           sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}    
           accessToken: ${{ secrets.ACCESS_TOKEN }}
           NPATH: ${{ secrets.NPATH }}
@@ -458,10 +458,10 @@ jobs:
           release: '2024.1'      
           sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}      
           # runNumber: ${{ github.run_number }}
-          runNumber: $XRT_VERSION_PATCH  
+          runNumber: ${{ env.XRT_VERSION_PATCH }}  
           accessToken: ${{ secrets.ACCESS_TOKEN }}      
           # buildNumber: ${{ github.run_number }}
-          buildNumber: $XRT_VERSION_PATCH              
+          buildNumber: ${{ env.XRT_VERSION_PATCH }}              
           runnerName: ${{ runner.name }}      
           branch: ${{ steps.extract_branch.outputs.branch }}    
           github-server-url: ${{ secrets.SERVER_URL }}  
@@ -506,10 +506,10 @@ jobs:
           release: '2024.1'      
           sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}      
           # runNumber: ${{ github.run_number }}
-          runNumber: $XRT_VERSION_PATCH  
+          runNumber: ${{ env.XRT_VERSION_PATCH }}  
           accessToken: ${{ secrets.ACCESS_TOKEN }}      
           # buildNumber: ${{ github.run_number }}
-          buildNumber: $XRT_VERSION_PATCH              
+          buildNumber: ${{ env.XRT_VERSION_PATCH }}              
           runnerName: ${{ runner.name }}      
           branch: ${{ steps.extract_branch.outputs.branch }}    
           github-server-url: ${{ secrets.SERVER_URL }}
@@ -534,7 +534,7 @@ jobs:
           pipeline: 'xrt'        
           release: '2024.1'      
           # runNumber: ${{ github.run_number }}
-          runNumber: $XRT_VERSION_PATCH  
+          runNumber: ${{ env.XRT_VERSION_PATCH }}  
           accessToken: ${{ secrets.ACCESS_TOKEN }}      
           github-server-url: ${{ secrets.SERVER_URL }}
 
@@ -564,7 +564,7 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}
           github-server-url: ${{ secrets.SERVER_URL }}    
           # path: ${{ github.workspace }}/${{ github.run_number }}
-          path: ${{ github.workspace }}/$XRT_VERSION_PATCH    
+          path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}    
           
       - name: Checkout private repository    
         uses: actions/checkout@v3 
@@ -578,12 +578,12 @@ jobs:
       - name: Use composite action package download     
         uses: ./composite-workflows/gradle-artifactory-upload   
         with:    
-          runNumber: $XRT_VERSION_PATCH
+          runNumber: ${{ env.XRT_VERSION_PATCH }}
           # runNumber: ${{ github.run_number }}        
           pipeline: ${{ env.PIPELINE }}    
           env: ${{ env.ENV }}
           workspace: ${{ github.workspace }}  
-          buildNumber: $XRT_VERSION_PATCH
+          buildNumber: ${{ env.XRT_VERSION_PATCH }}
           # buildNumber: ${{ github.run_number }}  
           branch: ${{ steps.extract_branch.outputs.branch }}
           accessToken: ${{ secrets.ACCESS_TOKEN }}
