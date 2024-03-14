@@ -115,8 +115,8 @@ jobs:
         with:     
           # workspace: ${{ github.workspace }}/${{ github.run_number }}/build
           workspace: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}/build      
-          # buildNumber: ${{ github.run_number }} 
-          buildNumber: ${{ env.XRT_VERSION_PATCH }}       
+          buildNumber: ${{ github.run_number }} 
+          # buildNumber: ${{ env.XRT_VERSION_PATCH }}       
           release: ${{ env.RELEASE }}
           accessToken: ${{ secrets.ACCESS_TOKEN }} 
           workspaceg: ${{ github.workspace }}
@@ -517,7 +517,18 @@ jobs:
   Upload_packages_to_Artifactory:  
     runs-on: [self-hosted, Ubuntu-22.04]  
     needs: Release_to_xco  
-    steps:  
+    steps: 
+
+      - name: Set env variables
+        env: 
+          RUN_NUMBER: ${{ github.run_number }}      
+        run: |    
+          echo "Setting environment variables..." 
+          # echo ::set-env name=XRT_VERSION_PATCH::$(($RUN_NUMBER+200)) 
+          echo "XRT_VERSION_PATCH=$(($GITHUB_RUN_NUMBER+200))" >> $GITHUB_ENV     
+          # echo "XRT_VERSION_PATCH=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV    
+          echo "PATH=/usr/bin:$PATH" >> $GITHUB_ENV  
+
       - name: Checkout private repository    
         uses: actions/checkout@v3 
         with:    
