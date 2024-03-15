@@ -70,7 +70,8 @@ jobs:
         with:     
           pipeline: ${{ env.PIPELINE }} 
           osVersion: ${{ matrix.os }}  
-          packageType: ${{ matrix.packageType }}  
+          packageType: ${{ matrix.packageType }}
+          os_ver: ${{ matrix.os_ver }}   
           workspace: ${{ github.workspace }}
           # buildNumber: ${{ github.run_number }}
           buildNumber: ${{ env.XRT_VERSION_PATCH }}          
