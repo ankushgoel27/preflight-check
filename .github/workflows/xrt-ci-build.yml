@@ -103,10 +103,12 @@ jobs:
           fetch-depth: 0
           path: ${{ github.workspace }}/${{ github.run_number }}
           # path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }} 
-          
           submodules: recursive
           persist-credentials: false
-          sparse-checkout: .
+          sparse-checkout: 
+            build
+            src
+            tests
 
             
       - name: Checkout private repository      
