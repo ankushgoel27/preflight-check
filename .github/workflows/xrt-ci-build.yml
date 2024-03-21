@@ -106,10 +106,8 @@ jobs:
           
           submodules: recursive
           persist-credentials: false
-          # sparse-checkout: |
-          #   src
-          #   build
-          #   tests 
+          sparse-checkout: .
+
             
       - name: Checkout private repository      
         uses: actions/checkout@v3   
