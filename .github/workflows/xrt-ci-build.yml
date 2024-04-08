@@ -381,15 +381,39 @@ jobs:
   update-latest-pointers:
     runs-on: [self-hosted, Ubuntu-22.04]
     steps:
-      - name: update latest pointers 
-        run: |    
-          cd ${{ secrets.NPATH }}/${{ env.PIPELINE }}/${{ env.ENV }}_pipeline/tests/${{ env.RELEASE }}
-          old_qualified_value=$(readlink qualified_latest)
-          basename=$(basename feeder_latest)
-          rm qualified_previous
-          ln -s ${old_qualified_value} qualified_previous
-          rm qualified_latest
-          ln -s ${basename} qualified_latest
+      - name: Checkout private repository      
+        uses: actions/checkout@v3   
+        with:      
+          repository: actions-int/composite-workflows      
+          token: ${{ secrets.ACCESS_TOKEN }}
+          github-server-url: ${{ secrets.SERVER_URL }}       
+          path: composite-workflows  
+          ref: copy-packages-feature
+       
+      - name: Qualification step     
+        uses: ./composite-workflows/qualification
+        with:     
+          pipeline: ${{ env.PIPELINE }}
+          sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}
+          apiKey: ${{ secrets.apiKey }}  
+          accessToken: ${{ secrets.ACCESS_TOKEN }}   
+          USER: ${{ secrets.USER }} 
+          runNumber: ${{ github.run_number }}_${{ github.run_attempt }}      
+          NPATH: ${{ secrets.NPATH }}
+          release: ${{ env.RELEASE }}
+          env: ${{ env.ENV }}
+          github-server-url: ${{ secrets.SERVER_URL }}  
+
+   
+      # - name: update latest pointers 
+      #   run: |    
+      #     cd ${{ secrets.NPATH }}/${{ env.PIPELINE }}/${{ env.ENV }}_pipeline/tests/${{ env.RELEASE }}
+      #     old_qualified_value=$(readlink qualified_latest)
+      #     basename=$(basename feeder_latest)
+      #     rm qualified_previous
+      #     ln -s ${old_qualified_value} qualified_previous
+      #     rm qualified_latest
+      #     ln -s ${basename} qualified_latest
 
   cleanup-script:
     runs-on: [self-hosted, Ubuntu-22.04]
