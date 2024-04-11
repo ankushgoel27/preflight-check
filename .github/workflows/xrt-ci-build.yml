@@ -14,73 +14,73 @@ on:
       - copy-packages-feature
   
 jobs:
-  # build:
-    # strategy:      
-    #   matrix:      
-    #     include:      
-    #       - os: centos78      
-    #         packageType: rpm
-    #         os_ver: centos_7.8      
-    #       - os: centos8      
-    #         packageType: rpm
-    #         os_ver: centos_8.1     
-    #       - os: rhel9      
-    #         packageType: rpm
-    #         os_ver: rhel_9.1     
-    #       - os: ubuntu2004      
-    #         packageType: deb
-    #         os_ver: ubuntu_20.04     
-    #       - os: ubuntu2204      
-    #         packageType: deb
-    #         os_ver: ubuntu_22.04     
+  build:
+    strategy:      
+      matrix:      
+        include:      
+          # - os: centos78      
+          #   packageType: rpm
+          #   os_ver: centos_7.8      
+          # - os: centos8      
+          #   packageType: rpm
+          #   os_ver: centos_8.1     
+          # - os: rhel9      
+          #   packageType: rpm
+          #   os_ver: rhel_9.1     
+          # - os: ubuntu2004      
+          #   packageType: deb
+          #   os_ver: ubuntu_20.04     
+          - os: hip      
+            packageType: deb
+            os_ver: ubuntu_22.04     
         
-    # runs-on: [self-hosted, Ubuntu-22.04]
-    # steps:  
-    #   - name: Set env variables
-    #     env: 
-    #       RUN_NUMBER: ${{ github.run_number }}   
-    #     run: |    
-    #       echo "Setting environment variables..."
-    #       # echo ::set-env name=XRT_VERSION_PATCH::$(($RUN_NUMBER+200))
-    #       echo "XRT_VERSION_PATCH=$(($GITHUB_RUN_NUMBER+200))" >> $GITHUB_ENV      
-    #       # echo "XRT_VERSION_PATCH=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV    
-    #       echo "PATH=/usr/bin:$PATH" >> $GITHUB_ENV     
+    runs-on: [self-hosted, Ubuntu-22.04]
+    steps:  
+      - name: Set env variables
+        env: 
+          RUN_NUMBER: ${{ github.run_number }}   
+        run: |    
+          echo "Setting environment variables..."
+          # echo ::set-env name=XRT_VERSION_PATCH::$(($RUN_NUMBER+200))
+          echo "XRT_VERSION_PATCH=$(($GITHUB_RUN_NUMBER+200))" >> $GITHUB_ENV      
+          # echo "XRT_VERSION_PATCH=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV    
+          echo "PATH=/usr/bin:$PATH" >> $GITHUB_ENV     
     
-    #   - name: Checkout PR   
-    #     uses: actions/checkout@v4 
-    #     with: 
-    #       repository: "${{ github.event.pull_request.head.repo.full_name }}"
-    #       ref: "${{ github.event.pull_request.head.ref }}"
-    #       fetch-depth: 0
-    #       # path: ${{ github.workspace }}/${{ github.run_number }}
-    #       path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}    
-    #       submodules: recursive   
+      - name: Checkout PR   
+        uses: actions/checkout@v4 
+        with: 
+          repository: "${{ github.event.pull_request.head.repo.full_name }}"
+          ref: "${{ github.event.pull_request.head.ref }}"
+          fetch-depth: 0
+          # path: ${{ github.workspace }}/${{ github.run_number }}
+          path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}    
+          submodules: recursive   
 
-    #   - name: Checkout private repository      
-    #     uses: actions/checkout@v3   
-    #     with:      
-    #       repository: actions-int/composite-workflows
-    #       github-server-url: ${{ secrets.SERVER_URL }}      
-    #       token: ${{ secrets.ACCESS_TOKEN }}      
-    #       path: composite-workflows 
-    #       ref: copy-packages-feature
+      - name: Checkout private repository      
+        uses: actions/checkout@v3   
+        with:      
+          repository: actions-int/composite-workflows
+          github-server-url: ${{ secrets.SERVER_URL }}      
+          token: ${{ secrets.ACCESS_TOKEN }}      
+          path: composite-workflows 
+          ref: copy-packages-feature
        
-    #   - name: XRT build     
-    #     uses: ./composite-workflows/build
-    #     with:     
-    #       pipeline: ${{ env.PIPELINE }} 
-    #       osVersion: ${{ matrix.os }}  
-    #       packageType: ${{ matrix.packageType }}
-    #       os_ver: ${{ matrix.os_ver }}   
-    #       workspace: ${{ github.workspace }}
-    #       # buildNumber: ${{ github.run_number }}
-    #       buildNumber: ${{ env.XRT_VERSION_PATCH }}          
-    #       accessToken: ${{ secrets.ACCESS_TOKEN }}
-    #       github-server-url: ${{ secrets.SERVER_URL }}
-    #       appConfig: ${{ secrets.APP_CONFIG }} 
-    #       appConfig1: ${{ secrets.APP_CONFIG1 }} 
-    #       appConfig2: ${{ secrets.APP_CONFIG2 }} 
-    #       appConfig3: ${{ secrets.APP_CONFIG3 }} 
+      - name: XRT build     
+        uses: ./composite-workflows/build
+        with:     
+          pipeline: ${{ env.PIPELINE }} 
+          osVersion: ${{ matrix.os }}  
+          packageType: ${{ matrix.packageType }}
+          os_ver: ${{ matrix.os_ver }}   
+          workspace: ${{ github.workspace }}
+          # buildNumber: ${{ github.run_number }}
+          buildNumber: ${{ env.XRT_VERSION_PATCH }}          
+          accessToken: ${{ secrets.ACCESS_TOKEN }}
+          github-server-url: ${{ secrets.SERVER_URL }}
+          appConfig: ${{ secrets.APP_CONFIG }} 
+          appConfig1: ${{ secrets.APP_CONFIG1 }} 
+          appConfig2: ${{ secrets.APP_CONFIG2 }} 
+          appConfig3: ${{ secrets.APP_CONFIG3 }} 
 
 
   # windows-build:
@@ -378,49 +378,49 @@ jobs:
   #         # echo "test summary URL: ${{ steps.summary.outputs.url }}" >> $GITHUB_STEP_SUMMARY    
   #         echo '### [tests logs summary](${{ steps.summary.outputs.url }})' >> $GITHUB_STEP_SUMMARY 
 
-  update-latest-pointers:
-    runs-on: [self-hosted, Ubuntu-22.04]
-    steps:
-      - name: Checkout private repository      
-        uses: actions/checkout@v3   
-        with:      
-          repository: actions-int/composite-workflows      
-          token: ${{ secrets.ACCESS_TOKEN }}
-          github-server-url: ${{ secrets.SERVER_URL }}       
-          path: composite-workflows  
-          ref: copy-packages-feature
+  # update-latest-pointers:
+  #   runs-on: [self-hosted, Ubuntu-22.04]
+  #   steps:
+  #     - name: Checkout private repository      
+  #       uses: actions/checkout@v3   
+  #       with:      
+  #         repository: actions-int/composite-workflows      
+  #         token: ${{ secrets.ACCESS_TOKEN }}
+  #         github-server-url: ${{ secrets.SERVER_URL }}       
+  #         path: composite-workflows  
+  #         ref: copy-packages-feature
        
-      - name: Qualification step     
-        uses: ./composite-workflows/qualification
-        with:     
-          pipeline: ${{ env.PIPELINE }}
-          sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}
-          apiKey: ${{ secrets.apiKey }}  
-          accessToken: ${{ secrets.ACCESS_TOKEN }}   
-          USER: ${{ secrets.USER }} 
-          runNumber: ${{ github.run_number }}_${{ github.run_attempt }}      
-          NPATH: ${{ secrets.NPATH }}
-          release: ${{ env.RELEASE }}
-          env: ${{ env.ENV }}
-          github-server-url: ${{ secrets.SERVER_URL }}  
+  #     - name: Qualification step     
+  #       uses: ./composite-workflows/qualification
+  #       with:     
+  #         pipeline: ${{ env.PIPELINE }}
+  #         sshKey: ${{ secrets.CI_PRIVATE_SSH_KEY }}
+  #         apiKey: ${{ secrets.apiKey }}  
+  #         accessToken: ${{ secrets.ACCESS_TOKEN }}   
+  #         USER: ${{ secrets.USER }} 
+  #         runNumber: ${{ github.run_number }}_${{ github.run_attempt }}      
+  #         NPATH: ${{ secrets.NPATH }}
+  #         release: ${{ env.RELEASE }}
+  #         env: ${{ env.ENV }}
+  #         github-server-url: ${{ secrets.SERVER_URL }}  
 
    
-      # - name: update latest pointers 
-      #   run: |    
-      #     cd ${{ secrets.NPATH }}/${{ env.PIPELINE }}/${{ env.ENV }}_pipeline/tests/${{ env.RELEASE }}
-      #     old_qualified_value=$(readlink qualified_latest)
-      #     basename=$(basename feeder_latest)
-      #     rm qualified_previous
-      #     ln -s ${old_qualified_value} qualified_previous
-      #     rm qualified_latest
-      #     ln -s ${basename} qualified_latest
+  #     # - name: update latest pointers 
+  #     #   run: |    
+  #     #     cd ${{ secrets.NPATH }}/${{ env.PIPELINE }}/${{ env.ENV }}_pipeline/tests/${{ env.RELEASE }}
+  #     #     old_qualified_value=$(readlink qualified_latest)
+  #     #     basename=$(basename feeder_latest)
+  #     #     rm qualified_previous
+  #     #     ln -s ${old_qualified_value} qualified_previous
+  #     #     rm qualified_latest
+  #     #     ln -s ${basename} qualified_latest
 
-  cleanup-script:
-    runs-on: [self-hosted, Ubuntu-22.04]
-    needs: update-latest-pointers
-    steps:
-      - name: cleanup script 
-        run: |    
-          ${{ secrets.NPATH }}/${{ env.PIPELINE }}/${{ env.ENV }}_pipeline/configs/bin/pipelineCleanupScript --dir "${{ secrets.NPATH }}/${{ env.PIPELINE }}/${{ env.ENV }}_pipeline/tests/${env.RELEASE}"
+  # cleanup-script:
+  #   runs-on: [self-hosted, Ubuntu-22.04]
+  #   needs: update-latest-pointers
+  #   steps:
+  #     - name: cleanup script 
+  #       run: |    
+  #         ${{ secrets.NPATH }}/${{ env.PIPELINE }}/${{ env.ENV }}_pipeline/configs/bin/pipelineCleanupScript --dir "${{ secrets.NPATH }}/${{ env.PIPELINE }}/${{ env.ENV }}_pipeline/tests/${env.RELEASE}"
   
 
