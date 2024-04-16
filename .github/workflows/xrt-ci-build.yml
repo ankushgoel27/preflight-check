@@ -83,7 +83,7 @@ jobs:
           appConfig3: ${{ secrets.APP_CONFIG3 }}
 
   test_job:
-    runs-on: [xrt, trx]
+    runs-on: [self-hosted, trx]
     steps:
       - name: Testing
         run: |    
