@@ -5,11 +5,14 @@ name: XRT PR
 env:  
   RELEASE: '2024.1'  
   PIPELINE: 'xrt' 
-  ENV: 'prod' 
+  ENV: 'test' 
 
 on:
-  pull_request_target:
-    types: [opened, edited, synchronize]
+  push:
+    branches:
+      - 'final-test'
+  # pull_request_target:
+  #   types: [opened, edited, synchronize]
   
 # on:
 #   workflow_call:
