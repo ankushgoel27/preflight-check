@@ -12,6 +12,7 @@ on:
   push:  
     branches:  
       - copy-packages-feature
+  workflow_dispatch:
   
 jobs:
   build:
