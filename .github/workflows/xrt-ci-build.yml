@@ -1,4 +1,4 @@
-name: XRT CI copy pacakges
+name: XRT CI copy pacakges 2nd
 
 env:  
   RELEASE: '2024.1'  
