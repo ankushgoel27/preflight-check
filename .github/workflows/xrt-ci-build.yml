@@ -8,11 +8,12 @@ env:
 # on:
 #   schedule:
 #     - cron: '0 0 * * *' 
-on:  
+on:
+  workflow_dispatch:
   push:  
     branches:  
-      - copy-packages-feature
-  workflow_dispatch:
+      - 'copy-packages-feature'
+
   
 jobs:
   build:
