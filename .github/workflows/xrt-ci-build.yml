@@ -16,73 +16,73 @@ on:
 
   
 jobs:
-  build:
-    strategy:      
-      matrix:      
-        include:      
-          # - os: centos78      
-          #   packageType: rpm
-          #   os_ver: centos_7.8      
-          # - os: centos8      
-          #   packageType: rpm
-          #   os_ver: centos_8.1     
-          # - os: rhel9      
-          #   packageType: rpm
-          #   os_ver: rhel_9.1     
-          # - os: ubuntu2004      
-          #   packageType: deb
-          #   os_ver: ubuntu_20.04     
-          - os: hip      
-            packageType: deb
-            os_ver: ubuntu_22.04     
+  # build:
+  #   strategy:      
+  #     matrix:      
+  #       include:      
+  #         # - os: centos78      
+  #         #   packageType: rpm
+  #         #   os_ver: centos_7.8      
+  #         # - os: centos8      
+  #         #   packageType: rpm
+  #         #   os_ver: centos_8.1     
+  #         # - os: rhel9      
+  #         #   packageType: rpm
+  #         #   os_ver: rhel_9.1     
+  #         # - os: ubuntu2004      
+  #         #   packageType: deb
+  #         #   os_ver: ubuntu_20.04     
+  #         - os: hip      
+  #           packageType: deb
+  #           os_ver: ubuntu_22.04     
         
-    runs-on: [self-hosted, Ubuntu-22.04]
-    steps:  
-      - name: Set env variables
-        env: 
-          RUN_NUMBER: ${{ github.run_number }}   
-        run: |    
-          echo "Setting environment variables..."
-          # echo ::set-env name=XRT_VERSION_PATCH::$(($RUN_NUMBER+200))
-          echo "XRT_VERSION_PATCH=$(($GITHUB_RUN_NUMBER+200))" >> $GITHUB_ENV      
-          # echo "XRT_VERSION_PATCH=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV    
-          echo "PATH=/usr/bin:$PATH" >> $GITHUB_ENV     
+  #   runs-on: [self-hosted, Ubuntu-22.04]
+  #   steps:  
+  #     - name: Set env variables
+  #       env: 
+  #         RUN_NUMBER: ${{ github.run_number }}   
+  #       run: |    
+  #         echo "Setting environment variables..."
+  #         # echo ::set-env name=XRT_VERSION_PATCH::$(($RUN_NUMBER+200))
+  #         echo "XRT_VERSION_PATCH=$(($GITHUB_RUN_NUMBER+200))" >> $GITHUB_ENV      
+  #         # echo "XRT_VERSION_PATCH=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV    
+  #         echo "PATH=/usr/bin:$PATH" >> $GITHUB_ENV     
     
-      - name: Checkout PR   
-        uses: actions/checkout@v4 
-        with: 
-          repository: "Xilinx/XRT"
-          ref: "master"
-          fetch-depth: 0
-          # path: ${{ github.workspace }}/${{ github.run_number }}
-          path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}    
-          submodules: recursive   
+  #     - name: Checkout PR   
+  #       uses: actions/checkout@v4 
+  #       with: 
+  #         repository: "Xilinx/XRT"
+  #         ref: "master"
+  #         fetch-depth: 0
+  #         # path: ${{ github.workspace }}/${{ github.run_number }}
+  #         path: ${{ github.workspace }}/${{ env.XRT_VERSION_PATCH }}    
+  #         submodules: recursive   
 
-      - name: Checkout private repository      
-        uses: actions/checkout@v3   
-        with:      
-          repository: actions-int/composite-workflows
-          github-server-url: ${{ secrets.SERVER_URL }}      
-          token: ${{ secrets.ACCESS_TOKEN }}      
-          path: composite-workflows 
-          ref: copy-packages-feature
+  #     - name: Checkout private repository      
+  #       uses: actions/checkout@v3   
+  #       with:      
+  #         repository: actions-int/composite-workflows
+  #         github-server-url: ${{ secrets.SERVER_URL }}      
+  #         token: ${{ secrets.ACCESS_TOKEN }}      
+  #         path: composite-workflows 
+  #         ref: copy-packages-feature
        
-      - name: XRT build     
-        uses: ./composite-workflows/build
-        with:     
-          pipeline: ${{ env.PIPELINE }} 
-          osVersion: ${{ matrix.os }}  
-          packageType: ${{ matrix.packageType }}
-          os_ver: ${{ matrix.os_ver }}   
-          workspace: ${{ github.workspace }}
-          # buildNumber: ${{ github.run_number }}
-          buildNumber: ${{ env.XRT_VERSION_PATCH }}          
-          accessToken: ${{ secrets.ACCESS_TOKEN }}
-          github-server-url: ${{ secrets.SERVER_URL }}
-          appConfig: ${{ secrets.APP_CONFIG }} 
-          appConfig1: ${{ secrets.APP_CONFIG1 }} 
-          appConfig2: ${{ secrets.APP_CONFIG2 }} 
-          appConfig3: ${{ secrets.APP_CONFIG3 }}
+  #     - name: XRT build     
+  #       uses: ./composite-workflows/build
+  #       with:     
+  #         pipeline: ${{ env.PIPELINE }} 
+  #         osVersion: ${{ matrix.os }}  
+  #         packageType: ${{ matrix.packageType }}
+  #         os_ver: ${{ matrix.os_ver }}   
+  #         workspace: ${{ github.workspace }}
+  #         # buildNumber: ${{ github.run_number }}
+  #         buildNumber: ${{ env.XRT_VERSION_PATCH }}          
+  #         accessToken: ${{ secrets.ACCESS_TOKEN }}
+  #         github-server-url: ${{ secrets.SERVER_URL }}
+  #         appConfig: ${{ secrets.APP_CONFIG }} 
+  #         appConfig1: ${{ secrets.APP_CONFIG1 }} 
+  #         appConfig2: ${{ secrets.APP_CONFIG2 }} 
+  #         appConfig3: ${{ secrets.APP_CONFIG3 }}
 
   test_job:
     runs-on: [self-hosted, trx]
