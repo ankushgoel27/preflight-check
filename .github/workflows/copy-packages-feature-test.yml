@@ -386,7 +386,7 @@ jobs:
           path: composite-workflows  
           ref: cleanup-patch
        
-      - name: Use composite action for pcie-hw       
+      - name: Use composite action for pcie-hw.       
         uses: ./composite-workflows/emulation
         with:  
           organization: ${{ github.repository }}
